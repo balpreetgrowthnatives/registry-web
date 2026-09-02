@@ -48,6 +48,16 @@ const conf: NextConfig = {
         destination: "https://discord.gg/comfyorg",
         permanent: false,
       },
+      {
+        // Legacy per-publisher node URLs: registry.comfy.org/<publisher>/<node>.
+        // The publisher prefix was dropped; nodes are served at /nodes/<node>.
+        // The negative lookahead keeps this off real top-level routes, and the
+        // dot-free segment keeps it off static files.
+        source:
+          "/:publisherId((?!api|_next|_storybook|admin|auth|nodes|publishers|fonts|locales|static|discord)[^/.]+)/:nodeId",
+        destination: "/nodes/:nodeId",
+        statusCode: 301,
+      },
     ];
   },
 };
